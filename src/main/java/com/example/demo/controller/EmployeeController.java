@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.model.Email;
 import com.example.demo.model.Employee;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.EmployeeService;
 
 @Controller
@@ -45,6 +47,23 @@ public class EmployeeController {
 	@GetMapping("/deleteEmployee/{id}")
 	public String deleteEmploye(@PathVariable (value= "id") long id) {
 		this.employeeService.deleteEmployeeById(id);
+		return "redirect:/";
+	}
+	@GetMapping("/showEmailForm/{id}")
+	public String showEmailForm(@PathVariable (value="id") long id, Model model) {
+		Employee employee = employeeService.getEmployeeById(id);
+		Email email = new Email();
+		email.setFirstName(employee.getFirstName());
+		email.setLastName(employee.getLastName());
+		email.setTo(employee.getEmail());
+		email.setFrom("pettaparaak003@gmail.com");
+		model.addAttribute("email", email);
+		return "email_form";
+	}
+	@PostMapping("/sendEmail")
+	public String sendEmail(@ModelAttribute("email") Email email) {
+		EmailService emailService = new EmailService(email);
+		emailService.sendSimpleEmail();
 		return "redirect:/";
 	}
 }

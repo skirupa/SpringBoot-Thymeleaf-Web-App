@@ -52,6 +52,8 @@
 						<td class="table-light" th:text = "${employee.email}"></td>
 						<td class="table-light">  <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
 							 <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
+							 <a th:href="@{/showEmailForm/{id}(id=${employee.id})}" class="btn btn-info">Email</a>
+
 						</td>
 					</tr> 
 				</tbody>
